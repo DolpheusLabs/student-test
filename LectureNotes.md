@@ -247,6 +247,37 @@ There's a few things we won't do from that, but that's where this part comes fro
 3. Between each other in your team, ensure the following gets accomplished: 
 - edit ./modules/main.tf to add the following: 
 
+`resource "aws_s3_bucket" "s3_bucket" {
+  bucket = var.bucket_name
+  acl    = "public-read"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.bucket_name}/*"
+            ]
+        }
+    ]
+}
+EOF
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+  tags = var.tags
+}`
+
+
 variable "bucket_name" {
 
   description = "Name of the s3 bucket. Must be unique."
