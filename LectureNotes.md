@@ -279,7 +279,7 @@ EOF
 }
 ```
 
-
+*skip this code*
 variable "bucket_name" {
 
   description = "Name of the s3 bucket. Must be unique."
@@ -294,8 +294,24 @@ variable "tags" {
   default = {}
 }
 
+*end skip code*
 
 - create ./modules/variables.tf to add the following: 
+
+```
+variable "bucket_name" {
+  description = "Name of the s3 bucket. Must be unique."
+  type = string
+}
+
+variable "tags" {
+  description = "Tags to set on the bucket."
+  type = map(string)
+  default = {}
+}
+```
+
+*skip this code*
 
 variable "bucket_name" {
   description = "Name of the s3 bucket. Must be unique."
@@ -330,6 +346,8 @@ output "website_endpoint" {
   value       = aws_s3_bucket.s3_bucket.website_endpoint
   
 }
+
+*end skip code*
 
 - edit the ROOT LEVEL /teamx/main.tf to have the following instead of what it had before.
 
