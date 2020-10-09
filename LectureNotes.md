@@ -1,5 +1,6 @@
 # TO DO RIGHT BEFORE LAB
--	Open the security group in AWS to 0.0.0.0/0
+
+***Open the security group in AWS to 0.0.0.0/0***
 
 # Welcome to Security Mountaineering Week 4: DevSecOps! 
 
