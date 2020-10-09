@@ -326,12 +326,10 @@ variable "tags" {
 
 - edit ./modules/outputs.tf to add the following
 
+```
 output "arn" {
-
   description = "ARN of the bucket"
-  
   value       = aws_s3_bucket.s3_bucket.arn
-  
 }
 
 output "name" {
@@ -340,41 +338,31 @@ output "name" {
 }
 
 output "website_endpoint" {
-
   description = "Domain name of the bucket"
-  
   value       = aws_s3_bucket.s3_bucket.website_endpoint
-  
 }
+```
 
-*end skip code*
+
 
 - edit the ROOT LEVEL /teamx/main.tf to have the following instead of what it had before.
 
+```
 provider "aws" {
-
   version = 3.9
-  
   profile = "default"
-  
   region  = "us-east-2"
-  
 }
 
 module "website_s3_bucket" {
-
   source = "./modules/"
-
   bucket_name = "test-bucket-student-12345"
-  
-  tags = {
+    tags = {
     Terraform   = "true"
-    
-    Environment = "dev"
-    
+        Environment = "dev"
+    }
   }
-  
-}
+```
 
 - Review and become familiar with each of the files you and your teammates just shared in your project together. 
 
