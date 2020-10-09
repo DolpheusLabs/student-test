@@ -129,6 +129,7 @@ OK, There's another way you could do this - you could write a bucket policy, or 
 But I think we should try to make something a little more reusable that's got that security built into it already. This is where Terraform Modules come in. Modules are just what they sound like: modular entities that are designed for you to make really reusable code that's more dynamic and sharable. 
 
 *What’s a TF Module?*
+
 •	Main.tf is actually a module; it’s the root module
 
 •	It contains a collection of resources; you can create additional splat.tf files which also have collections of resources; those would be modules. 
@@ -137,9 +138,9 @@ But I think we should try to make something a little more reusable that's got th
 
 •	Typically you want to wrap a higher-level thing together, e.g.:
 
-    o	Team Jenkins server + s3 bucket + subnet
+   o	Team Jenkins server + s3 bucket + subnet
     
-    o	3-tier webapp
+   o	3-tier webapp
     
 ... but we're going to, because we don't have time to write a whole webapp today. Sometimes here at work, through, we do write narrowly-defined modules like this.
 
@@ -171,7 +172,7 @@ A few things that are a bit different about modules:
 
 •	If you need outputs, such as for instance needing to attach a webserver to an ALB, you’d need to use the outputs.tf file because the ALB needs to know what the instances are. You do this by specifying the output var. 
 
-    o	In this example, you could create webserver with this between the TF block + the resource block: 
+   o	In this example, you could create webserver with this between the TF block + the resource block: 
         output “webserver” {
         value = aws_instance.webserver
         description “my AWS instance for the webserver”
