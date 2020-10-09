@@ -49,5 +49,10 @@ bundle exec rake spec || true
         junit(allowEmptyResults: true, testResults: '**/testResults/*.xml')
       }
     }
+    stage('Cleanup') {
+      steps {
+        sh "rm -rf ./*"
+      }
+  }
   }
 }
