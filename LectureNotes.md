@@ -35,6 +35,14 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 •	Changes automatically picked up & ran
 •	We’ll dive into HOW to test your code more in 2 weeks when we go over PyLint, PyTest, etc. with Michael Lysaght
 
+Handy Resources: 
+- Want to see CI/CD explained in 100 seconds? https://www.youtube.com/watch?v=scEDHsr3APg
+- How about a 35 minute walkthrough of Modules for later viewing? https://www.youtube.com/watch?v=7jnuTdhxjhw
+- Creating a GitOps workflow with TF + Jenkins: https://www.hashicorp.com/resources/how-create-gitops-workflow-terraform-jenkins
+- TF Modules Docs: https://www.terraform.io/docs/modules/index.html
+- TF Learning: TF Modules Walkthrough: https://learn.hashicorp.com/tutorials/terraform/module-use
+
+
 **POP QUIZ**
 -	Who can name at least one tool we use for a git repository here at work?
 -	Someone else: who can name one orchestrator/build tool we use here? 
@@ -307,3 +315,22 @@ When creating a module, consider which resource arguments to expose to module en
 
 You should also consider which values to add as outputs, since outputs are the only supported way for users to get information about resources configured by the module.
 
+## TFE / Sentinel
+
+Terraform Enterprise (aka TFE) is pretty cool. Note how earlier you had those state files getting created and destroyed -- well, those are kinda the crux of Terraform. Normally you need to persist those somewhere super safe; letting the deployed state differ from the state file or letting the state file get lost/corrupted makes for a LOT of manual cleanup. It's *really* not fun. Some ways people persist their state files: 
+- In their Jenkins run, they'd copy that file to some share internally, set so only Jenkins and that service account can modify it, and some sort of notation either pushed back to the repo, to the dev via email, in a database/config mgmt, or as a file with the state associating the build:TF-plan.out:statefile.
+- Some places even take that DB thing to the next level, and consider this crucial to their CMDB. CIS CSC #1 is always the asset inventory, so this is a great way to associate those things, plus it would make IR and investigations easier. 
+- Some will do that but move the storage to something like s3. This is nice because s3 makes it easy to enable version control on the bucket, prevent accidental deletion/require MFA deletion, etc. VERY common amongst enterprises. 
+- TFE offers those options, PLUS they offer to store your state files natively in the tool. 
+
+***but wait, there's more***
+
+TFE is also where the TF init / TF plan / TF apply also occur. So, in Jenkins, you'd just zip up those artifacts and send them up to TFE, or you can have it monitor your git repo as well. This is really nice for taking that orchestration out of places like Jenkins, especially since their RBAC is really nice. 
+
+***CALL NOW AND WE'LL DOUBLE YOUR OFFER!!!***
+
+TFE also has a tool called Sentinel, which is used to perform security checks of the plan. They have a bunch of the tests written for you, they're easy to write yourself, they offer GREAT version control (store in your git repo, so this is very #gitops #iac #complianceAsCode), and it's easy to selectively apply policies where needed. Admins can set baslines, other people can add additional checks, etc. Further, checks can have varying levels of stringency -- allow, warn, hard-enforce, etc. 
+
+All the logging for all of this + correlations/associations between these is provided in TFE, and they have an excellent API to interact with it all. 
+
+I'll show you now some of this in my personal TF-Cloud account (which used to have Sentinel). 
