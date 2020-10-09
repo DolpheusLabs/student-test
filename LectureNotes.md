@@ -354,6 +354,9 @@ provider "aws" {
   region  = "us-east-2"
 }
 
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+
 module "website_s3_bucket" {
   source = "./modules/"
   bucket_name = "test-bucket-student-12345"
