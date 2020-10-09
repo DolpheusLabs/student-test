@@ -34,10 +34,15 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 -	Someone else: who can name one orchestrator/build tool we use here? 
 
 o	Some examples at Citi
+
 	Jenkins + BitBucket
+
 	Jenkins + BitBucket + Terraform Community
+
 	Jenkins + BitBucket + Hashicorp Vault + TFE
+
 	AWS CodeCommit/CodeBuild/CodePipeline
+
 o	Since we’re all here to get to the Cloud safely, we’re going to use Terraform today. Specifically, we’ll use something very similar to what we have at work, since we’ll use GitHub (in place of BitBucket), Jenkins, and Terraform Community. Secrets we won’t talk about. They’re secret. 
 
 
