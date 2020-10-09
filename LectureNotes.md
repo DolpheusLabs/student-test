@@ -86,8 +86,8 @@ We're climbing the mountain that leads us into the cloud, so we also need to tal
 - Click back, now click Add File -> Create new file. 
 - ... One of you should create a file called dev.tfvars
 - ... Another of you should create a file called main.tf
-- ... the 3rd person in your group should take this moment to open the Sherpa/Lab1 folder, then open main.tf, and copy the contents. You're about to paste and edit that into person 2's new file. *Please make the new name of the bucket have your team name in it, such as security-mountaineering-team5-lab-bucket1*
-- ... the 4th person in your group should go to Sherpa/Lab1, open Jenkinsfile, and copy those contents; you're about to put them into your team's Jenkinsfile. But YOU are going to do this right from master, with a twist. Go ahead and open/enter edit mode, and paste, but do _not_ commit/save. Feel free to prepare your commit message though ;)
+- ... the 3rd person in your group should take this moment to open the GitHub repo from the Sherpa - you'll need to open main.tf from there and copy the contents. Paste that into person 2's new file, then edit it -- *Please make the new name of the bucket have your team name in it, such as security-mountaineering-team5-lab-bucket1*
+- ... the 4th person in your group should open the GitHub repo from the Sherpa, open Jenkinsfile, and copy those contents; you're about to put them into your team's Jenkinsfile. But YOU are going to do this right from master, with a twist. Go ahead and open/enter edit mode, and paste, but do _not_ commit/save. Feel free to prepare your commit message though ;)
 
 Since we're talking about it, there's a little text box for a commit message, as well as an extended description. Get in the habit of using these, because when it's days or months later, you don't want to remember what it was or go through a git diff process. Do future you a solid. Use your commits. Plus, make sure your team can understand what you did! 
 
