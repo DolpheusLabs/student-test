@@ -1,3 +1,6 @@
+**TO DO RIGHT BEFORE LAB**
+-	Open the security group in AWS to 0.0.0.0/0
+
 **Intro**
 Today we are going to try to do a TON in 1 hour, so lets get going. There will be LOTS of hands-on today, so buckle up!
 -	(5min) Hello/Attendance/Signup/Reminder of pathway objectives
@@ -60,6 +63,7 @@ Before you get too worried -- Terraform is actually pretty straightforward. You'
 
 - You can find your credentials at the security sherpa site: *teams.md is the filename*. 
 - Get logged in to all 3 systems (Jenkins, GitHub, AWS) and have the Sherpa GitHub up in another tab. Please don't mess about. 
+- AWS: Whenever given an option to do so, please select us-east-2. That'll save me some time cleaning up later. Note: this is a personal AWS account, and work didn't send any AWS or iTunes gift cards my way, so kindly don't launch things that aren't in the free tier or totally free. 
 - This will be a lighter weight use of Git -- if you want to use the CLI using these creds, PLEASE feel free! 
 - you're on your own for merge conflicts ;) 
 - You're intentionally in a team sharing one repo. It was easier than trying to make n logins for y teams and such. 
