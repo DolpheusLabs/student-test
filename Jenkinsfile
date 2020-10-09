@@ -9,6 +9,7 @@ pipeline {
     stage('Environment Prep') {
       steps {
         sh "ls -la"
+        sh "rm -rf DevSecOps-Labs"
         sh "cp /tmp/terraform.tfvars ./"
         sh "cat dev.tfvars >> terraform.tfvars && cat terraform.tfvars >> dev.tfvars"
       }
