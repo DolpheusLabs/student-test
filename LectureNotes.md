@@ -68,7 +68,18 @@ We're climbing the mountain that leads us into the cloud, so we also need to tal
 - ... One of you should create a file called dev.tfvars
 - ... Another of you should create a file called main.tf
 - ... the 3rd person in your group should take this moment to open the Sherpa/Lab1 folder, then open main.tf, and copy the contents. You're about to paste and edit that into person 2's new file. *Please make the new name of the bucket have your team name in it, such as security-mountaineering-team5-lab-bucket1*
-- ... the 4th person in your group should go to Sherpa/Lab1, open main.tf, and copy those contents; you're about to put them into your team's Jenkinsfile.
+- ... the 4th person in your group should go to Sherpa/Lab1, open Jenkinsfile, and copy those contents; you're about to put them into your team's Jenkinsfile. But YOU are going to do this right from master, with a twist. Go ahead and open/enter edit mode, and paste, but do _not_ commit/save. Feel free to prepare your commit message though ;)
 
+Since we're talking about it, there's a little text box for a commit message, as well as an extended description. Get in the habit of using these, because when it's days or months later, you don't want to remember what it was or go through a git diff process. Do future you a solid. Use your commits. Plus, make sure your team can understand what you did! 
 
-new branch - dev.tfvars - main.tf - copy/paste contents of dolpheus/dev/lab1/main.tf
+OK, so at this point, there's 3 branches - main/master, Ryan, Russell (or whatever the names are, and John is still waiting patiently on main to commit the jenkinsfile. FOR YOU - go ahead and switch the radio button to the second option, which will create a new branch and start a pull request. Hit Propose Changes button. 
+
+Recall from 2 weeks ago in the Git Scientist section, pull requests are asking the main branch to kindly pull your changes into theirs. A nice message here helps them know what you're changing, and a good maintainer will of course vet your changes as they prepare to merge them. Go ahead and hit "Create pull request"
+
+Now, you're all logged in as the one user/maintainer/admin of the github account, so this probably approximates someone that gets sidetracked more than represetinga team. that's Fine. it should still show no conflicts, so go ahead and hit "marge pull request." and merge it all in. You can even delete the branch, because now it's already in main, and there's no need to leave this dangling. 
+
+Ok, the rest of the class should see that there's now warnings that some branch (will be your teammates' names) had recent pushes moments ago, so we want to compare and pull request those. Go ahead and each of you follow this workflow for yours. There should be no conflicts if we're following instructions. 
+
+Once we're all done, this should leave us back with only a main branch and some shiny new files. How cool! 
+
+The astute among you may have noticed that your Jenkins page is going a bit beserk. Indeed, it is. Let's all open the most recent build from your project. 
