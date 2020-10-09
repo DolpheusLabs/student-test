@@ -29,7 +29,7 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 •	Changes automatically picked up & ran
 •	We’ll dive into HOW to test your code more in 2 weeks when we go over PyLint, PyTest, etc. with Michael Lysaght
 
-** POP QUIZ **
+**POP QUIZ**
 -	Who can name at least one tool we use for a git repository here at work?
 -	Someone else: who can name one orchestrator/build tool we use here? 
 
@@ -61,5 +61,5 @@ Starting off, you have a hello world set up. Go ahead and elect one person on yo
 
 We're climbing the mountain that leads us into the cloud, so we also need to talk about Terraform. Now, it's a bit of a short training to learn CI/CD/GitOps/Terraform/Terraform Modules/security testing, so we're going to combine several things. We're going to iterate through some terraform changes and setup while using Jenkins in order to learn both at once. Any git issues that come up will be a great opportuntiy to practice your git scientist skills. Remember through all of this: this is *also* the beginning of Infrastructure as Code, Compliance as Code, etc.; since everything is stored in git and has historical state-in-time information, we can look back to see at any given moment what was configured how. 
 
-**Lab 1: 
+**Lab 1:**
 - new branch - dev.tfvars - main.tf - copy/paste contents of dolpheus/dev/lab1/main.tf
