@@ -43,10 +43,20 @@ o	Some examples at Citi
 
 	AWS CodeCommit/CodeBuild/CodePipeline
 
-o	Since we’re all here to get to the Cloud safely, we’re going to use Terraform today. Specifically, we’ll use something very similar to what we have at work, since we’ll use GitHub (in place of BitBucket), Jenkins, and Terraform Community. Secrets we won’t talk about. They’re secret. 
+o	Since we’re all here to get to the Cloud safely, we’re going to use Terraform today. Specifically, we’ll use something very similar to what we have at work, since toady we’ll be using GitHub (in place of BitBucket), Jenkins, and Terraform Community. Secrets we won’t talk about. They’re secret. 
+
+Recall that Terraform is a bootstrap tool - it's not a CI or CD tool in and of itself, or a configuration management tool -- these would be more like your git repo, Jenkins, and Ansible, respectively. Terraform simply creates resources as they are declared in a file, or as we'll cover more today, a set of files. It's generally pretty vendor neutral, and that's why it's so darn popular. 
+- AWS = CloudFormation Templates
+- Azure = Resource Manager
+- GCP = Deployment Manager
+- Kubernetes = Helm Charts, but that's only the apps, that's not the servers underneath
+- I suppose you could answer that with CoreOS, as it has a bootstrap tool to get OpenShift running, so you *could* use KVM, LIBVERT, RedHat ClusterManager, and a lot of effort to get that stood up to then throw a helm chart down on
+- ORRRRRRRRR.... Just use Terraform to do that in those (and more) clouds, deploy your apps if desired, etc. It's pretty dope. That's why we use it, and that's what we're working on today. 
+
+Before you get too worried -- Terraform is actually pretty straightforward. You'll see. Think of today more as a CI/CD class where instead of iterating on a dummy webapp we'll be iterating on some infrastructure code instead -- that way we learn that along the way. Neat!
 
 
-***Go to securitymountaineering.com***
+***Open your browsers, and go to securitymountaineering.com***
 
 - You can find your credentials at the security sherpa site: *teams.md is the filename*. 
 - Get logged in to all 3 systems (Jenkins, GitHub, AWS) and have the Sherpa GitHub up in another tab. Please don't mess about. 
@@ -82,4 +92,122 @@ Ok, the rest of the class should see that there's now warnings that some branch 
 
 Once we're all done, this should leave us back with only a main branch and some shiny new files. How cool! 
 
-The astute among you may have noticed that your Jenkins page is going a bit beserk. Indeed, it is. Let's all open the most recent build from your project. 
+The astute among you may have noticed that your Jenkins page is going a bit beserk. Indeed, it is. Let's all open the most recent build from your project. If it's prompting you to Proceed or Abort, go ahead and click Proceed. In fact, assume that you should always do this today, because aborting will leave our shetland Jenkins environment in a bit of a pigstye. If you did that all correctly and if nobody else's jobs are getting in the way, you may have also been successful at creating a bucket! 
+
+- How did that get there? Well, I am doing a little magic behind the scenes and taking care of your AWS authentication. Secrets make *great* friends.
+
+*How'd everyone do?*
+- Are all your branches merged? 
+- Are all your changes and logins working? 
+- Did your runner go? If not, feel free to cancel it and give it another go
+- Did you see anything about your bucket? ***Tell me what you notice about that bucket.***
+
+
+**Lab 2**
+So that bucket is public read, which isn't always bad -- securitymountaineering.com is a public read bucket, but then again a website kinda needs to be able to be read. Let's assume this bucket is going to house some data that we'd rather not let be public. 
+
+The first way we can iterate on and improve this is to go ahead and change that bucket ACL from public-read to private. 
+- One person on your team should open main.tf, make this change, and commit. It's best practice to NOT make changes right on the main branch, so I recommend getting in the habit of making a new branch, albeit before the change or as part of the commit process. The risk to the second way is that you might accidentally commit right to master. 
+
+**POP QUIZ** 
+If you want to go back 1 commit and make that the new master: 
+- what command would you use? 
+- ... (could use git reset <commit SHA> for absolute || for relative: git reset current~1 for back 1 commit)
+- What happens to the commit you were on? 
+- ... Nothing, it stays there, one commit ahead of the master. Remember, git reset is somply *moving the pointer*. The files remain unchanged. 
+
+Read more and see visuals here: 
+https://opensource.com/article/18/6/git-reset-revert-rebase-commands
+
+
+
+OK, There's another way you could do this - you could write a bucket policy, or can use some fancy terraform overrides. You can read about those here: 
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
+- https://github.com/terraform-aws-modules/terraform-aws-s3-bucket/blob/master/main.tf
+
+
+But I think we should try to make something a little more reusable that's got that security built into it already. This is where Terraform Modules come in. Modules are just what they sound like: modular entities that are designed for you to make really reusable code that's more dynamic and sharable. 
+
+*What’s a TF Module?*
+•	Main.tf is actually a module; it’s the root module
+
+•	It contains a collection of resources; you can create additional splat.tf files which also have collections of resources; those would be modules. 
+
+•	It’s generally not a great idea to make a module per each concept (try not to use a wrapper; e.g.: here’s my t2.micro module, or even EC2 instance)
+
+•	Typically you want to wrap a higher-level thing together, e.g.:
+
+    o	Team Jenkins server + s3 bucket + subnet
+    
+    o	3-tier webapp
+    
+... but we're going to, because we don't have time to write a whole webapp today. Sometimes here at work, through, we do write narrowly-defined modules like this.
+
+•	Most often contained in a folder called “modules”. Let’s say we have 2 modules to create: webservice and backend-service
+
+ProjectDirectory
+|- .gitignore
+|- main.tf
+|- readme.md
+|-/modules/
+      |-/webservice/
+            |- main.tf
+            |- vars.tf
+            |- output.tf
+            |- README.md (optional)
+      |-/backend-service/
+            |- main.tf
+            |- vars.tf
+            |- output.tf
+            |- README.md (optional)
+            
+            
+A few things that are a bit different about modules: 
+
+•	Because they’re reusable and shared so much, you declare a terraform block at the top, then specify a required version (or minimum) so that you can ensure compatibility
+
+•	Because you’re trying to build extensibility, you want the user to pass in specifics, so you’ll use variables as much as possible.
+•	Variables get properly defined in vars.tf. 
+
+•	If you need outputs, such as for instance needing to attach a webserver to an ALB, you’d need to use the outputs.tf file because the ALB needs to know what the instances are. You do this by specifying the output var. 
+
+    o	In this example, you could create webserver with this between the TF block + the resource block: 
+        output “webserver” {
+        value = aws_instance.webserver
+        description “my AWS instance for the webserver”
+        }
+        
+BUT… that would be hard to debug and trace all of them. SO, you stick it in the outputs file
+
+o	Access by adding in the root module
+resource “aws_elb” “main”{
+    instances = module.wills_webserver.instance.id
+}
+
+o	This is why TF Plan is such a big deal – it’s able to look at all of this and sort out what order things need to go in, how it’s going to do everything, what dependencies there are, etc. 
+
+•	Call the module from the root module by using the keyword “module”
+
+    o	The name assigned is whatever; the config arguments have only 1 required (source), then the rest are optional/as-needed. E.g.: 
+
+module “ryans_webserver” {
+    source = “../modules/webserver”
+}
+
+***Friendly Tips***
+- Don’t forget to run terraform init every time you add/modify a child module
+-	Can call module in a module, but TF recommends very flat – too much nesting introduces complexity + risk of infinite loop. 
+
+There are also some other files to be aware of, and ensure that you don't distribute them as part of your module:
+
+•	terraform.tfstate and terraform.tfstate.backup: These files contain your Terraform state, and are how Terraform keeps track of the relationship between your configuration and the infrastructure provisioned by it.
+
+•	.terraform: This directory contains the modules and plugins used to provision your infrastructure. These files are specific to a specific instance of Terraform when provisioning infrastructure, not the configuration of the infrastructure defined in .tf files.
+
+•	*.tfvars: Since module input variables are set via arguments to the module block in your configuration, you don't need to distribute any *.tfvars files with your module, unless you are also using it as a standalone Terraform configuration.
+
+
+^^ This means add these to your .gitignore
+Sample: https://github.com/github/gitignore/blob/master/Terraform.gitignore 
+
+
