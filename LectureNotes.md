@@ -25,7 +25,7 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 -	...Config Mgmt
 -	...Resource Deployment/Bootstrap Tools
 
-**(xxxmin) CI-CD**
+**(5min) CI-CD**
 -	We covered these concepts last week, but let’s dive deeper now that we did the git hands-on. 
 -	Recall those merge conflict labs (learngitbranching.js.org - in the Remote Tab, Advanced section, lab 2 is a GREAT example) how difficult this can be even on a simple example. Now consider that in the legacy release environment all these commits might be done 6 months in the past, and you’ve worked/delivered dozens of features, and are working on something totally different today, but it’s time for the release. If there’s a problem, this can be a BIG issue to resolve. 
 -	Enter the CI side of things. With your small changes that are frequently brought together with others’ work and frequently tested, you get fast feedback loops and continuous testing on your code. 
@@ -47,6 +47,8 @@ o	Some examples at Citi
 	AWS CodeCommit/CodeBuild/CodePipeline
 
 o	Since we’re all here to get to the Cloud safely, we’re going to use Terraform today. Specifically, we’ll use something very similar to what we have at work, since toady we’ll be using GitHub (in place of BitBucket), Jenkins, and Terraform Community. Secrets we won’t talk about. They’re secret. 
+
+Quick note on GitHub: You're welcome to use GitHub Desktop, but realize that we don't have something like that internally, and it doesn't look like we will soon. I'd suggest not using it for this unless you're already really comfortable with git. That said, it would be helpful if at least one person on your team has some sort of client, whether that be GitHub Desktop, a terminal window, etc. 
 
 Recall that Terraform is a bootstrap tool - it's not a CI or CD tool in and of itself, or a configuration management tool -- these would be more like your git repo, Jenkins, and Ansible, respectively. Terraform simply creates resources as they are declared in a file, or as we'll cover more today, a set of files. It's generally pretty vendor neutral, and that's why it's so darn popular. 
 - AWS = CloudFormation Templates
@@ -215,4 +217,90 @@ There are also some other files to be aware of, and ensure that you don't distri
 ^^ This means add these to your .gitignore
 Sample: https://github.com/github/gitignore/blob/master/Terraform.gitignore 
 
+
+OK... Let's get back into some hands on. This next bit pretty much follows this link: 
+https://learn.hashicorp.com/tutorials/terraform/module-create
+
+There's a few things we won't do from that, but that's where this part comes from. 
+
+1. Between each other in your team, ensure the following gets accomplished: 
+- create ./modules/main.tf
+- create ./modules/variables.tf
+- create ./modules/outputs.tf
+- edit the readme to state that this is a module for provisioning S3 buckets with some security built in.
+
+**before you commit that, you may wish to get to step 3 ;) **
+
+2. Note, you normally would see another level of directories; modules typically holds the set of modules. Users will copy those in, but for now we're just going to use one module, so we aren't too worried about that. 
+
+3. Between each other in your team, ensure the following gets accomplished: 
+- edit ./modules/main.tf to add the following: 
+
+
+
+
+- create ./modules/variables.tf to add the following: 
+
+variable "bucket_name" {
+  description = "Name of the s3 bucket. Must be unique."
+  type = string
+}
+
+variable "tags" {
+  description = "Tags to set on the bucket."
+  type = map(string)
+  default = {}
+}
+
+- edit ./modules/outputs.tf to add the following
+
+output "arn" {
+  description = "ARN of the bucket"
+  value       = aws_s3_bucket.s3_bucket.arn
+}
+
+output "name" {
+  description = "Name (id) of the bucket"
+  value       = aws_s3_bucket.s3_bucket.id
+}
+
+output "website_endpoint" {
+  description = "Domain name of the bucket"
+  value       = aws_s3_bucket.s3_bucket.website_endpoint
+}
+
+- edit the ROOT LEVEL /teamx/main.tf to have the following instead of what it had before.
+
+provider "aws" {
+  version = 3.9
+  profile = "default"
+  region  = "us-east-2"
+}
+
+module "website_s3_bucket" {
+  source = "./modules/"
+
+  bucket_name = "test-bucket-student-12345"
+  
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+
+- Review and become familiar with each of the files you and your teammates just shared in your project together. 
+
+**Thoughts**
+
+- *main.tf* You may notice that there is no provider block in this configuration. When Terraform processes a module block, it will inherit the provider from the enclosing configuration. Because of this, we recommend that you do not include provider blocks in modules.
+- *variables.tf* Just like the root module of your configuration, modules will define and use variables.
+
+
+Variables within modules work almost exactly the same way that they do for the root module. When you run a Terraform command on your root configuration, there are various ways to set variable values, such as passing them on the commandline, or with a .tfvars file. When using a module, variables are set by passing arguments to the module in your configuration. You will set some of these variables when calling this module from your root module's main.tf.
+
+Variables defined in modules that aren't given a default value are required, and so must be set whenever the module is used.
+
+When creating a module, consider which resource arguments to expose to module end users as input variables. For example, you might decide to expose the index and error documents to end users of this module as variables, but not define a variable to set the ACL , since to host a website your bucket will need the ACL to be set to "public-read".
+
+You should also consider which values to add as outputs, since outputs are the only supported way for users to get information about resources configured by the module.
 
