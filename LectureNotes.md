@@ -1,6 +1,50 @@
 **Intro**
+Today we are going to try to do a TON in 1 hour, so lets get going. There will be LOTS of hands-on today, so buckle up!
+-	(5min) Hello/Attendance/Signup/Reminder of pathway objectives
+
+**Prerequisites:**
+- If you’re going to participate today, you need a browser that’s off network. Bonus points if you want to use a git client on your machine too. 
+
+**(5min) Refresher on last time**
+-	DevOps = mindset
+-	...Empowerment, enablement, reliability, automation, end-to-end ownership
+-	Helps to solve those big manual difficult release processes
+-	Core tenets include frequent small changes
+-	Often complimented by microservices, Git, and a sea of tools
+-	...DevOps != a tool, set of tools, or procedure
+-	Labs using Git:
+-	...Commits, merges, working with remotes, and working with teams
+-	CI/CD Vocab
+-	...CI: Continuous Integration = merging to a central repo, running tests, and helping find bugs faster and closer to deployment time
+-	...Continuous Delivery = publishes built/tested artifacts, ready to deploy. May deploy into an Acceptance Testing/UAT style environment and wait for validation.
+-	...Continuous Deployment = all the above, but there’s no human gate before deploying to production. From git push to deployed into production may be a few minutes to perhaps an hour. 
+-	IaC Overview
+-	...Config Mgmt
+-	...Resource Deployment/Bootstrap Tools
+
+**(xxxmin) CI-CD**
+-	We covered these concepts last week, but let’s dive deeper now that we did the git hands-on. 
+-	Recall those merge conflict labs (learngitbranching.js.org - in the Remote Tab, Advanced section, lab 2 is a GREAT example) how difficult this can be even on a simple example. Now consider that in the legacy release environment all these commits might be done 6 months in the past, and you’ve worked/delivered dozens of features, and are working on something totally different today, but it’s time for the release. If there’s a problem, this can be a BIG issue to resolve. 
+-	Enter the CI side of things. With your small changes that are frequently brought together with others’ work and frequently tested, you get fast feedback loops and continuous testing on your code. 
+•	Changes automatically picked up & ran
+•	We’ll dive into HOW to test your code more in 2 weeks when we go over PyLint, PyTest, etc. with Michael Lysaght
+
+** POP QUIZ **
+-	Who can name at least one tool we use for a git repository here at work?
+-	Someone else: who can name one orchestrator/build tool we use here? 
+
+o	Some examples at Citi
+	Jenkins + BitBucket
+	Jenkins + BitBucket + Terraform Community
+	Jenkins + BitBucket + Hashicorp Vault + TFE
+	AWS CodeCommit/CodeBuild/CodePipeline
+o	Since we’re all here to get to the Cloud safely, we’re going to use Terraform today. Specifically, we’ll use something very similar to what we have at work, since we’ll use GitHub (in place of BitBucket), Jenkins, and Terraform Community. Secrets we won’t talk about. They’re secret. 
+
+
 ***Go to securitymountaineering.com***
-- You have your credentials. Get logged in to both systems. Please don't mess about. 
+
+- You can find your credentials at the security sherpa site: *teams.md is the filename*. 
+- Get logged in to all 3 systems (Jenkins, GitHub, AWS) and have the Sherpa GitHub up in another tab. Please don't mess about. 
 - This will be a lighter weight use of Git -- if you want to use the CLI using these creds, PLEASE feel free! 
 - you're on your own for merge conflicts ;) 
 - You're intentionally in a team sharing one repo. It was easier than trying to make n logins for y teams and such. 
