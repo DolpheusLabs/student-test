@@ -9,7 +9,6 @@ pipeline {
     stage('Environment Prep') {
       steps {
         sh "ls -la"
-        sh "rm -rf ./*"
         sh "git clone https://github.com/DolpheusLabs/DevSecOps-Labs"
         sh "cp -r ./DevSecOps-Labs/* ./"
         sh "cp /tmp/terraform.tfvars ./"
