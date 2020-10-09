@@ -247,7 +247,19 @@ There's a few things we won't do from that, but that's where this part comes fro
 3. Between each other in your team, ensure the following gets accomplished: 
 - edit ./modules/main.tf to add the following: 
 
+variable "bucket_name" {
 
+  description = "Name of the s3 bucket. Must be unique."
+  
+  type = string
+  
+}
+
+variable "tags" {
+  description = "Tags to set on the bucket."
+  type = map(string)
+  default = {}
+}
 
 
 - create ./modules/variables.tf to add the following: 
@@ -266,8 +278,11 @@ variable "tags" {
 - edit ./modules/outputs.tf to add the following
 
 output "arn" {
+
   description = "ARN of the bucket"
+  
   value       = aws_s3_bucket.s3_bucket.arn
+  
 }
 
 output "name" {
@@ -276,27 +291,38 @@ output "name" {
 }
 
 output "website_endpoint" {
+
   description = "Domain name of the bucket"
+  
   value       = aws_s3_bucket.s3_bucket.website_endpoint
+  
 }
 
 - edit the ROOT LEVEL /teamx/main.tf to have the following instead of what it had before.
 
 provider "aws" {
+
   version = 3.9
+  
   profile = "default"
+  
   region  = "us-east-2"
+  
 }
 
 module "website_s3_bucket" {
+
   source = "./modules/"
 
   bucket_name = "test-bucket-student-12345"
   
   tags = {
     Terraform   = "true"
+    
     Environment = "dev"
+    
   }
+  
 }
 
 - Review and become familiar with each of the files you and your teammates just shared in your project together. 
