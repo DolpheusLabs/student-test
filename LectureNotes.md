@@ -62,4 +62,13 @@ Starting off, you have a hello world set up. Go ahead and elect one person on yo
 We're climbing the mountain that leads us into the cloud, so we also need to talk about Terraform. Now, it's a bit of a short training to learn CI/CD/GitOps/Terraform/Terraform Modules/security testing, so we're going to combine several things. We're going to iterate through some terraform changes and setup while using Jenkins in order to learn both at once. Any git issues that come up will be a great opportuntiy to practice your git scientist skills. Remember through all of this: this is *also* the beginning of Infrastructure as Code, Compliance as Code, etc.; since everything is stored in git and has historical state-in-time information, we can look back to see at any given moment what was configured how. 
 
 **Lab 1:**
-- new branch - dev.tfvars - main.tf - copy/paste contents of dolpheus/dev/lab1/main.tf
+- Create a new branch with your name as the branch name
+- Click the .gitignore. *Explain gitignore, and how this one is set up for a TF project. You can have them in different directories too.*
+- Click back, now click Add File -> Create new file. 
+- ... One of you should create a file called dev.tfvars
+- ... Another of you should create a file called main.tf
+- ... the 3rd person in your group should take this moment to open the Sherpa/Lab1 folder, then open main.tf, and copy the contents. You're about to paste and edit that into person 2's new file. *Please make the new name of the bucket have your team name in it, such as security-mountaineering-team5-lab-bucket1*
+- ... the 4th person in your group should go to Sherpa/Lab1, open main.tf, and copy those contents; you're about to put them into your team's Jenkinsfile.
+
+
+new branch - dev.tfvars - main.tf - copy/paste contents of dolpheus/dev/lab1/main.tf
