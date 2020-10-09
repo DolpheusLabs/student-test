@@ -1,14 +1,16 @@
-**TO DO RIGHT BEFORE LAB**
+# TO DO RIGHT BEFORE LAB
 -	Open the security group in AWS to 0.0.0.0/0
 
-**Intro**
+# Welcome to Security Mountaineering Week 4: DevSecOps! 
+
+## Intro
 Today we are going to try to do a TON in 1 hour, so lets get going. There will be LOTS of hands-on today, so buckle up!
 -	(5min) Hello/Attendance/Signup/Reminder of pathway objectives
 
-**Prerequisites:**
+## Prerequisites:
 - If you’re going to participate today, you need a browser that’s off network. Bonus points if you want to use a git client on your machine too. 
 
-**(5min) Refresher on last time**
+## (5min) Refresher on last time
 -	DevOps = mindset
 -	...Empowerment, enablement, reliability, automation, end-to-end ownership
 -	Helps to solve those big manual difficult release processes
@@ -25,7 +27,7 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 -	...Config Mgmt
 -	...Resource Deployment/Bootstrap Tools
 
-**(5min) CI-CD**
+## (5min) CI-CD
 -	We covered these concepts last week, but let’s dive deeper now that we did the git hands-on. 
 -	Recall those merge conflict labs (learngitbranching.js.org - in the Remote Tab, Advanced section, lab 2 is a GREAT example) how difficult this can be even on a simple example. Now consider that in the legacy release environment all these commits might be done 6 months in the past, and you’ve worked/delivered dozens of features, and are working on something totally different today, but it’s time for the release. If there’s a problem, this can be a BIG issue to resolve. 
 -	Enter the CI side of things. With your small changes that are frequently brought together with others’ work and frequently tested, you get fast feedback loops and continuous testing on your code. 
@@ -61,7 +63,7 @@ Recall that Terraform is a bootstrap tool - it's not a CI or CD tool in and of i
 Before you get too worried -- Terraform is actually pretty straightforward. You'll see. Think of today more as a CI/CD class where instead of iterating on a dummy webapp we'll be iterating on some infrastructure code instead -- that way we learn that along the way. Neat!
 
 
-***Open your browsers, and go to securitymountaineering.com***
+### Open your browsers, and go to securitymountaineering.com
 
 - You can find your credentials at the security sherpa site: *teams.md is the filename*. 
 - Get logged in to all 3 systems (Jenkins, GitHub, AWS) and have the Sherpa GitHub up in another tab. Please don't mess about. 
@@ -77,7 +79,7 @@ Starting off, you have a hello world set up. Go ahead and elect one person on yo
 
 We're climbing the mountain that leads us into the cloud, so we also need to talk about Terraform. Now, it's a bit of a short training to learn CI/CD/GitOps/Terraform/Terraform Modules/security testing, so we're going to combine several things. We're going to iterate through some terraform changes and setup while using Jenkins in order to learn both at once. Any git issues that come up will be a great opportuntiy to practice your git scientist skills. Remember through all of this: this is *also* the beginning of Infrastructure as Code, Compliance as Code, etc.; since everything is stored in git and has historical state-in-time information, we can look back to see at any given moment what was configured how. 
 
-**Lab 1:**
+## Lab 1:
 - Create a new branch with your name as the branch name
 - Click the .gitignore. *Explain gitignore, and how this one is set up for a TF project. You can have them in different directories too.*
 - Click back, now click Add File -> Create new file. 
@@ -109,7 +111,7 @@ The astute among you may have noticed that your Jenkins page is going a bit bese
 - Did you see anything about your bucket? ***Tell me what you notice about that bucket.***
 
 
-**Lab 2**
+## Lab 2
 So that bucket is public read, which isn't always bad -- securitymountaineering.com is a public read bucket, but then again a website kinda needs to be able to be read. Let's assume this bucket is going to house some data that we'd rather not let be public. 
 
 The first way we can iterate on and improve this is to go ahead and change that bucket ACL from public-read to private. 
@@ -134,7 +136,7 @@ OK, There's another way you could do this - you could write a bucket policy, or 
 
 But I think we should try to make something a little more reusable that's got that security built into it already. This is where Terraform Modules come in. Modules are just what they sound like: modular entities that are designed for you to make really reusable code that's more dynamic and sharable. 
 
-*What’s a TF Module?*
+***What’s a TF Module?***
 
 •	Main.tf is actually a module; it’s the root module
 
@@ -229,7 +231,7 @@ There's a few things we won't do from that, but that's where this part comes fro
 - create ./modules/outputs.tf
 - edit the readme to state that this is a module for provisioning S3 buckets with some security built in.
 
-**before you commit that, you may wish to get to step 3 ;) **
+**before you commit that, you may wish to get to step 3 ;)**
 
 2. Note, you normally would see another level of directories; modules typically holds the set of modules. Users will copy those in, but for now we're just going to use one module, so we aren't too worried about that. 
 
