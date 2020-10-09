@@ -9,8 +9,6 @@ pipeline {
     stage('Environment Prep') {
       steps {
         sh "ls -la"
-        sh "git clone https://github.com/DolpheusLabs/DevSecOps-Labs"
-        sh "cp -r ./DevSecOps-Labs/* ./"
         sh "cp /tmp/terraform.tfvars ./"
         sh "cat dev.tfvars >> terraform.tfvars && cat terraform.tfvars >> dev.tfvars"
       }
