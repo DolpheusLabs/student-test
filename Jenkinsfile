@@ -35,7 +35,7 @@ pipeline {
     stage('Terraform Destroy') {
       steps {
         input 'Destroy Plan'
-        sh "${env.TF_HOME}terraform destroy -input=false"
+        sh "${env.TF_HOME}terraform destroy -input=false -auto-approve=true"
       }
     }
     stage('AWSpec Tests') {
