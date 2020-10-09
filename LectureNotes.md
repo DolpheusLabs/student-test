@@ -36,7 +36,7 @@ Today we are going to try to do a TON in 1 hour, so lets get going. There will b
 -	Who can name at least one tool we use for a git repository here at work?
 -	Someone else: who can name one orchestrator/build tool we use here? 
 
-o	Some examples at Citi
+o	Some examples here at work
 
 	Jenkins + BitBucket
 
